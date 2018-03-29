@@ -19,7 +19,7 @@ var onFormSubmit = function onFormSubmit(e) {
     };
     renderOptionList();
 };
-var resetOptions = function resetOptions() {
+var onDelete = function onDelete() {
     section.options = [];
     renderOptionList();
 };
@@ -52,7 +52,7 @@ var renderOptionList = function renderOptionList() {
         ),
         React.createElement(
             'button',
-            { onClick: resetOptions },
+            { onClick: onDelete },
             'Remove All Options!'
         ),
         React.createElement(
@@ -89,3 +89,5 @@ var renderOptionList = function renderOptionList() {
 };
 
 renderOptionList();
+
+///As of today
