@@ -22,6 +22,12 @@ const onDelete = () => {
     renderOptionList();
 }
 
+const onMakeDecision = () => {
+    const randNum = Math.floor(Math.random() * section.options.length);
+    const option = section.options[randNum];
+    alert(option);
+}
+
 const appRoot = document.getElementById('app');
 
 const renderOptionList = () => {
@@ -30,11 +36,11 @@ const renderOptionList = () => {
         <h1>{section.title}</h1>
         {section.subtitle && <p>{section.subtitle}</p>}
         <p>{section.options.length > 0 ? 'Here are your options:' : 'Quick, give yourself something to do!'}</p>
-        <p>{section.options.length}</p>
+        <button disabled={section.options.length ===0} onClick={onMakeDecision}>What should I do?</button>
         <button onClick={onDelete}>Remove All Options!</button>
         <ol>
          {section.options.map((item) => {
-              return <li key={option}>{item}</li>;
+              return <li key={item}>{item}</li>;
             })}
         </ol>
         <form onSubmit={onFormSubmit}>

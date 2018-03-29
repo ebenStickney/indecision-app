@@ -24,6 +24,12 @@ var onDelete = function onDelete() {
     renderOptionList();
 };
 
+var onMakeDecision = function onMakeDecision() {
+    var randNum = Math.floor(Math.random() * section.options.length);
+    var option = section.options[randNum];
+    alert(option);
+};
+
 var appRoot = document.getElementById('app');
 
 var renderOptionList = function renderOptionList() {
@@ -46,9 +52,9 @@ var renderOptionList = function renderOptionList() {
             section.options.length > 0 ? 'Here are your options:' : 'Quick, give yourself something to do!'
         ),
         React.createElement(
-            'p',
-            null,
-            section.options.length
+            'button',
+            { disabled: section.options.length === 0, onClick: onMakeDecision },
+            'What should I do?'
         ),
         React.createElement(
             'button',
@@ -61,7 +67,7 @@ var renderOptionList = function renderOptionList() {
             section.options.map(function (item) {
                 return React.createElement(
                     'li',
-                    { key: option },
+                    { key: item },
                     item
                 );
             })
