@@ -58,21 +58,13 @@ var renderOptionList = function renderOptionList() {
         React.createElement(
             'ol',
             null,
-            React.createElement(
-                'li',
-                null,
-                'Item1'
-            ),
-            React.createElement(
-                'li',
-                null,
-                'Item2'
-            ),
-            React.createElement(
-                'li',
-                null,
-                'Item3'
-            )
+            section.options.map(function (item) {
+                return React.createElement(
+                    'li',
+                    { key: option },
+                    item
+                );
+            })
         ),
         React.createElement(
             'form',

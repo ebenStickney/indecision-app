@@ -33,9 +33,9 @@ const renderOptionList = () => {
         <p>{section.options.length}</p>
         <button onClick={onDelete}>Remove All Options!</button>
         <ol>
-          <li>Item1</li>
-          <li>Item2</li>
-          <li>Item3</li>
+         {section.options.map((item) => {
+              return <li key={option}>{item}</li>;
+            })}
         </ol>
         <form onSubmit={onFormSubmit}>
           <input type='text' name='option'/>
