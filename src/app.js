@@ -1,21 +1,19 @@
-class Header extends React.Component {
-    render() {
+const Header = (props) => {
         return (
         <div>
-          <h1>{this.props.title}</h1>
-          <h3> {this.props.subtitle}</h3>
+          <h1>{props.title}</h1>
+          <h3> {props.subtitle}</h3>
         </div>
         )
     }
-}
 
-class Action extends React.Component {
-    render() {
+
+const Action = (props) => {
         return (
         <div>
           <button 
-            disabled={!this.props.hasOptions} 
-            onClick={this.props.handleDecision}
+            disabled={!props.hasOptions} 
+            onClick={props.handleDecision}
               >
               What Should I Do?
           </button>
@@ -23,37 +21,36 @@ class Action extends React.Component {
         
         )
     }
-}
 
 
-class Options extends React.Component {
-    render() {
+const Options = (props) => {
+    return (
+      <div>
+        <button onClick={props.onRemoveAll}>
+        Remove All
+        </button>
+        <ol>
+          {props.options.map((option) => {
+             return <Option key={option} optionText={option} />
+            })}
+        </ol>
         
-        return (
-        <div>
-          <button onClick={this.props.onRemoveAll}>Remove All</button>
-          <ol>
-          {this.props.options.map((option) => {
-                    return  <Option key={option} optionText={option} />
-                }
+      </div>
     
-)}
-         </ol>
-        </div>
-        
-        )
-    }
+    )
+    
 }
 
-class Option extends React.Component {
-    render () {
-        return (
-         <div>
-            <li>{this.props.optionText}</li>
-         </div>
-        )
-    }
+
+const Option = (props) => {
+    return ( 
+      <div>
+       <li>{props.optionText}</li>
+      </div>
+    ) 
+    
 }
+
 class AddOption extends React.Component {
     constructor(props) {
         super(props);
