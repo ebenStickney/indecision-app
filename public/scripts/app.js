@@ -50,6 +50,11 @@ var Options = function Options(props) {
             { onClick: props.onRemoveAll },
             "Remove All"
         ),
+        props.options.length === 0 && React.createElement(
+            "p",
+            null,
+            "Please add an option to get started!"
+        ),
         React.createElement(
             "ol",
             null,
@@ -71,16 +76,16 @@ var Option = function Option(props) {
         React.createElement(
             "li",
             null,
-            props.optionText
-        ),
-        React.createElement(
-            "button",
-            {
-                onClick: function onClick(e) {
-                    props.onDeleteOption(props.optionText);
-                }
-            },
-            "Remove"
+            props.optionText + " ",
+            React.createElement(
+                "button",
+                {
+                    onClick: function onClick(e) {
+                        props.onDeleteOption(props.optionText);
+                    }
+                },
+                "Remove"
+            )
         )
     );
 };
@@ -110,6 +115,10 @@ var AddOption = function (_React$Component) {
             this.setState(function () {
                 return { error: error };
             });
+
+            if (!error) {
+                e.target.elements.option.value = '';
+            } //wipes the value in the input field.  
         }
     }, {
         key: "render",
@@ -158,6 +167,30 @@ var IndecisionApp = function (_React$Component2) {
     }
 
     _createClass(IndecisionApp, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            try {
+                var json = localStorage.getItem('options');
+                var options = JSON.parse(json);
+
+                if (options) {
+                    this.setState(function () {
+                        return { options: options };
+                    });
+                }
+            } catch (e) {
+                //Leaving this blank is like saying: Do nothing.  Don't fetch 'null'  
+            }
+        }
+    }, {
+        key: "componentDidUpdate",
+        value: function componentDidUpdate(prevProps, prevState) {
+            if (prevState.options.length !== this.state.options.length) {
+                var json = JSON.stringify(this.state.options);
+                localStorage.setItem('options', json);
+            }
+        }
+    }, {
         key: "handleRemoveAll",
         value: function handleRemoveAll() {
             this.setState(function () {

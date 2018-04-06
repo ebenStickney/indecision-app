@@ -29,6 +29,7 @@ const Options = (props) => {
         <button onClick={props.onRemoveAll}>
         Remove All
         </button>
+        {props.options.length ===0 && <p>Please add an option to get started!</p>}
         <ol>
           {props.options.map((option) => {
              return (
@@ -50,14 +51,20 @@ const Options = (props) => {
 const Option = (props) => {
     return ( 
       <div>
-       <li>{props.optionText}</li>
-       <button 
-        onClick={(e) => {
-          props.onDeleteOption(props.optionText)
+            
+       <li>
+        {`${props.optionText} `}
+          
+         <button 
+          onClick={(e) => {
+            props.onDeleteOption(props.optionText)
                 }}
-       >
-        Remove
+         >
+           Remove
        </button>
+           
+       </li>
+       
       </div>
     ) 
     
@@ -79,6 +86,9 @@ class AddOption extends React.Component {
         const error = this.props.onSubmit(option);
         this.setState(() => ({error}))
         
+        if (!error) {
+            e.target.elements.option.value = '';
+        } //wipes the value in the input field.  
     }
     
     
@@ -106,6 +116,30 @@ class IndecisionApp extends React.Component {
         this.handleDecision = this.handleDecision.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDeleteOption = this.handleDeleteOption.bind(this);
+    }
+    
+    componentDidMount() {
+        try {
+           const json = localStorage.getItem('options');
+        const options = JSON.parse(json);
+        
+        if (options) {
+           this.setState(() => ({options})); 
+        }  
+            
+        } catch(e) {
+          //Leaving this blank is like saying: Do nothing.  Don't fetch 'null'  
+        }
+        
+       
+        
+    }
+    
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.options.length !== this.state.options.length) {
+            const json = JSON.stringify(this.state.options);
+            localStorage.setItem('options', json);
+        }
     }
     
     handleRemoveAll () {
