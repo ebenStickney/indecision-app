@@ -54,7 +54,11 @@ var Options = function Options(props) {
             "ol",
             null,
             props.options.map(function (option) {
-                return React.createElement(Option, { key: option, optionText: option });
+                return React.createElement(Option, {
+                    key: option,
+                    optionText: option,
+                    onDeleteOption: props.onDeleteOption
+                });
             })
         )
     );
@@ -68,6 +72,15 @@ var Option = function Option(props) {
             "li",
             null,
             props.optionText
+        ),
+        React.createElement(
+            "button",
+            {
+                onClick: function onClick(e) {
+                    props.onDeleteOption(props.optionText);
+                }
+            },
+            "Remove"
         )
     );
 };
@@ -140,6 +153,7 @@ var IndecisionApp = function (_React$Component2) {
         _this2.handleRemoveAll = _this2.handleRemoveAll.bind(_this2);
         _this2.handleDecision = _this2.handleDecision.bind(_this2);
         _this2.handleSubmit = _this2.handleSubmit.bind(_this2);
+        _this2.handleDeleteOption = _this2.handleDeleteOption.bind(_this2);
         return _this2;
     }
 
@@ -147,9 +161,7 @@ var IndecisionApp = function (_React$Component2) {
         key: "handleRemoveAll",
         value: function handleRemoveAll() {
             this.setState(function () {
-                return {
-                    options: []
-                };
+                return { options: [] };
             });
         }
     }, {
@@ -170,8 +182,17 @@ var IndecisionApp = function (_React$Component2) {
             }
 
             this.setState(function (prevState) {
+                return { options: prevState.options.concat(option) };
+            });
+        }
+    }, {
+        key: "handleDeleteOption",
+        value: function handleDeleteOption(optionToRemove) {
+            this.setState(function (prevState) {
                 return {
-                    options: prevState.options.concat(option)
+                    options: prevState.options.filter(function (option) {
+                        return optionToRemove !== option;
+                    })
                 };
             });
         }
@@ -192,7 +213,8 @@ var IndecisionApp = function (_React$Component2) {
                 }),
                 React.createElement(Options, {
                     options: this.state.options,
-                    onRemoveAll: this.handleRemoveAll
+                    onRemoveAll: this.handleRemoveAll,
+                    onDeleteOption: this.handleDeleteOption
                 }),
                 React.createElement(AddOption, {
                     onSubmit: this.handleSubmit

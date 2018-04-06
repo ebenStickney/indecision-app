@@ -31,7 +31,12 @@ const Options = (props) => {
         </button>
         <ol>
           {props.options.map((option) => {
-             return <Option key={option} optionText={option} />
+             return (
+               <Option 
+                key={option} 
+                optionText={option} 
+                onDeleteOption={props.onDeleteOption}
+               />)
             })}
         </ol>
         
@@ -46,6 +51,13 @@ const Option = (props) => {
     return ( 
       <div>
        <li>{props.optionText}</li>
+       <button 
+        onClick={(e) => {
+          props.onDeleteOption(props.optionText)
+                }}
+       >
+        Remove
+       </button>
       </div>
     ) 
     
@@ -65,9 +77,7 @@ class AddOption extends React.Component {
         
         const option = e.target.elements.option.value.trim();
         const error = this.props.onSubmit(option);
-        this.setState(() => {
-            return {error}
-        });
+        this.setState(() => ({error}))
         
     }
     
@@ -95,14 +105,11 @@ class IndecisionApp extends React.Component {
         this.handleRemoveAll = this.handleRemoveAll.bind(this);
         this.handleDecision = this.handleDecision.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleDeleteOption = this.handleDeleteOption.bind(this);
     }
     
     handleRemoveAll () {
-        this.setState(() => {
-            return {
-                options: []
-            }
-        })
+        this.setState(() => ({ options: [] }));
     }
     
     handleDecision () {
@@ -120,13 +127,15 @@ class IndecisionApp extends React.Component {
             return "You already have that on your list"
                    }
         
-        this.setState((prevState)=> {
-            return {
-                options: prevState.options.concat(option)
-            }
-        })
-   }
+        this.setState((prevState)=> ({ options: prevState.options.concat(option)}));
+        
+    }
     
+    handleDeleteOption (optionToRemove) {
+        this.setState((prevState) => ({
+            options: prevState.options.filter((option) => optionToRemove !== option)
+        }))
+    }
     render() {
         
         const title = "Indecision App";
@@ -143,6 +152,7 @@ class IndecisionApp extends React.Component {
           <Options 
             options={this.state.options}
             onRemoveAll={this.handleRemoveAll}
+            onDeleteOption={this.handleDeleteOption}
            />
           <AddOption
             onSubmit={this.handleSubmit}    
