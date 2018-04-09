@@ -1,112 +1,10 @@
-const Header = (props) => {
-        return (
-        <div>
-          <h1>{props.title}</h1>
-          <h3> {props.subtitle}</h3>
-        </div>
-        )
-    }
+import React from 'react';
+import AddOption from './AddOption';
+import Action from './Action';
+import Header from './Header';
+import Options from './Options';
 
-
-const Action = (props) => {
-        return (
-        <div>
-          <button 
-            disabled={!props.hasOptions} 
-            onClick={props.handleDecision}
-              >
-              What Should I Do?
-          </button>
-        </div>
-        
-        )
-    }
-
-
-const Options = (props) => {
-    return (
-      <div>
-        <button onClick={props.onRemoveAll}>
-        Remove All
-        </button>
-        {props.options.length ===0 && <p>Please add an option to get started!</p>}
-        <ol>
-          {props.options.map((option) => {
-             return (
-               <Option 
-                key={option} 
-                optionText={option} 
-                onDeleteOption={props.onDeleteOption}
-               />)
-            })}
-        </ol>
-        
-      </div>
-    
-    )
-    
-}
-
-
-const Option = (props) => {
-    return ( 
-      <div>
-            
-       <li>
-        {`${props.optionText} `}
-          
-         <button 
-          onClick={(e) => {
-            props.onDeleteOption(props.optionText)
-                }}
-         >
-           Remove
-       </button>
-           
-       </li>
-       
-      </div>
-    ) 
-    
-}
-
-class AddOption extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleAddOption = this.handleAddOption.bind(this);
-        this.state = {
-            error: undefined
-        }
-    }
-    
-    handleAddOption (e) {
-        e.preventDefault();
-        
-        const option = e.target.elements.option.value.trim();
-        const error = this.props.onSubmit(option);
-        this.setState(() => ({error}))
-        
-        if (!error) {
-            e.target.elements.option.value = '';
-        } //wipes the value in the input field.  
-    }
-    
-    
-    render () {
-      return (
-      <div>
-        {this.state.error && <p>{this.state.error}</p>}
-        <form onSubmit={this.handleAddOption}>
-          <input type="text" name="option"></input> 
-          <button>Add Option</button>
-        </form>
-      </div>
-      
-      )
-    }
-}
-
-class IndecisionApp extends React.Component {
+export default class IndecisionApp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -196,6 +94,3 @@ class IndecisionApp extends React.Component {
         )
     }
 }
-
-ReactDOM.render(<IndecisionApp />, document.getElementById('app'));
-
