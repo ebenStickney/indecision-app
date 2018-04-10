@@ -5,16 +5,10 @@ import Header from './Header';
 import Options from './Options';
 
 export default class IndecisionApp extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            options: []
-        };
-        this.handleRemoveAll = this.handleRemoveAll.bind(this);
-        this.handleDecision = this.handleDecision.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleDeleteOption = this.handleDeleteOption.bind(this);
-    }
+    state = {
+        options: []
+    };
+
     
     componentDidMount() {
         try {
@@ -40,18 +34,18 @@ export default class IndecisionApp extends React.Component {
         }
     }
     
-    handleRemoveAll () {
+    handleRemoveAll = () => {
         this.setState(() => ({ options: [] }));
     }
     
-    handleDecision () {
+    handleDecision = () => {
         const choice = this.state.options[Math.floor(Math.random() * this.state.options.length)]
         
         return alert(choice)
         
     }
     
-    handleSubmit (option) {
+    handleSubmit = (option) => {
         
         if (!option) {
             return "Error: Please submit an written option"
@@ -63,7 +57,7 @@ export default class IndecisionApp extends React.Component {
         
     }
     
-    handleDeleteOption (optionToRemove) {
+    handleDeleteOption = (optionToRemove) => {
         this.setState((prevState) => ({
             options: prevState.options.filter((option) => optionToRemove !== option)
         }))
