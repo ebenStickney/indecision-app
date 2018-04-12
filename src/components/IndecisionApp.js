@@ -3,10 +3,12 @@ import AddOption from './AddOption';
 import Action from './Action';
 import Header from './Header';
 import Options from './Options';
+import OptionModal from './OptionModal';
 
 export default class IndecisionApp extends React.Component {
     state = {
-        options: []
+        options: [],
+        selectedOption: undefined
     };
 
     
@@ -39,10 +41,9 @@ export default class IndecisionApp extends React.Component {
     }
     
     handleDecision = () => {
-        const choice = this.state.options[Math.floor(Math.random() * this.state.options.length)]
-        
-        return alert(choice)
-        
+        const choice = this.state.options[Math.floor(Math.random() * this.state.options.length)];
+        this.setState(() => ({ selectedOption: choice}));
+          
     }
     
     handleSubmit = (option) => {
@@ -62,6 +63,11 @@ export default class IndecisionApp extends React.Component {
             options: prevState.options.filter((option) => optionToRemove !== option)
         }))
     }
+    
+    handleModalExit = () => {
+        this.setState(() => ({selectedOption: undefined}))
+    }
+    
     render() {
         
         const title = "Indecision App";
@@ -82,6 +88,10 @@ export default class IndecisionApp extends React.Component {
            />
           <AddOption
             onSubmit={this.handleSubmit}    
+          />
+          <OptionModal 
+           selectedOption= {this.state.selectedOption}
+           onModalExit={this.handleModalExit}
           />
         </div>
         
