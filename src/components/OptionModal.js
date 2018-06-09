@@ -9,12 +9,12 @@ const OptionModal = (props) => (
      closeTimeoutMS={400}
      className="modal"
     >
-      
+
       <h2 className="modal__title">Go Forth And: </h2>
         {props.selectedOption && <p className="modal__body">{props.selectedOption}</p>}
-        
+
       <button className="button" onClick={props.onModalExit}>Okay</button>
     </Modal>
 );
 
-export default OptionModal; 
+export default OptionModal;
